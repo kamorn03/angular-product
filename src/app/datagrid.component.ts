@@ -1,6 +1,8 @@
 // datagrid.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { products } from './product'
+// import { products } from './product'
+import { ProductService } from './product.service';
+import { Product } from './product.model';
 
 @Component({
   selector: 'app-datagrid',
@@ -19,12 +21,17 @@ import { products } from './product'
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxi-column dataField="id" caption="id"></dxi-column>
         <dxi-column dataField="name" caption="Name"></dxi-column>
-        <dxi-column dataField="group" caption="group"></dxi-column>
-        <dxi-column dataField="subGroup" caption="subGroup"></dxi-column>
-        <dxi-column dataField="active" caption="IsActive">
-
-          {{this.statusTemplate}}
-        </dxi-column>
+        <dxi-column dataField="groupName" caption="group"></dxi-column>
+        <dxi-column dataField="subGroupName" caption="sub group"></dxi-column>
+        <dxo-toolbar>
+          <dxi-item location="before">
+            <button
+                text="My button"
+                width="120">
+            </button>        
+            </dxi-item>
+            <dxi-item name="columnChooserButton"></dxi-item>
+        </dxo-toolbar>
         <dxi-column
           caption="Actions"
           [allowSorting]="false"
@@ -40,20 +47,27 @@ import { products } from './product'
 })
 export class DataGridComponent implements OnInit {
   @Output() selectedItemChanged = new EventEmitter<number>();
-  dataSource!: any[];
+  dataSource!: Product[];
   columns!: any[];
   selectedItemId!: number;
 
+  constructor(
+    private productService: ProductService,
+  ) {
+  }
+
   ngOnInit() {
     // Set up your sample data
-    this.dataSource = products
+    // this.dataSource = this.productService.getProducts
 
-    this.columns = [
-      { dataField: 'id', caption: 'ID' },
-      { dataField: 'name', caption: 'Name' },
-      { dataField: 'status', caption: 'Status' },
-      // ... other columns ...
-    ];
+    this.productService.getProducts().subscribe(
+      (data: Product[]) => {
+        this.dataSource = data;
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   statusTemplate = (cellElement: any, cellInfo: any) => {
@@ -79,7 +93,8 @@ export class DataGridComponent implements OnInit {
       console.log('Selected ID:', this.selectedItemId);
       this.selectedItemChanged.emit(this.selectedItemId);
     }
-  }
+  }  
+
 
   setStatus(data: any, status: string) {
     // Implement logic to update status in your data source or call a service

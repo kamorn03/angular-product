@@ -8,9 +8,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { DxDataGridModule } from 'devextreme-angular';
 import { AppComponent } from './app.component';
-
 import { AppRoutingModule } from './app.routes';
-
 import { ProductComponent } from './product/product.component';
 import { DataGridComponent } from './datagrid.component';
 
