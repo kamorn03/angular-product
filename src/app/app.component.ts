@@ -6,4 +6,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Products';
+  selectedItemId!: number;
+
+  onSelectedItemChanged(itemId: number) {
+    this.selectedItemId = itemId;
+  }
 }

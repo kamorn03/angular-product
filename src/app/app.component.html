@@ -1,8 +1,7 @@
 <h1>{{title}}</h1>
 <nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
+  <a routerLink="/product/{{selectedItemId}}">product</a>
 </nav>
 <router-outlet></router-outlet>
-<app-datagrid></app-datagrid>
+<app-datagrid (selectedItemChanged)="onSelectedItemChanged($event)"></app-datagrid>
 <!-- <app-messages></app-messages> -->
