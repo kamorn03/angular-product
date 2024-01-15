@@ -1,5 +1,6 @@
 // datagrid.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { products } from './product'
 
 @Component({
   selector: 'app-datagrid',
@@ -15,21 +16,23 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
         }"
         (onSelectionChanged)="onSelectionChanged($event)"
       >
+        <dxo-paging [enabled]="true"></dxo-paging>
         <dxi-column dataField="id" caption="id"></dxi-column>
         <dxi-column dataField="name" caption="Name"></dxi-column>
-        <dxi-column dataField="status" caption="Status"></dxi-column>
+        <dxi-column dataField="group" caption="group"></dxi-column>
+        <dxi-column dataField="subGroup" caption="subGroup"></dxi-column>
+        <dxi-column dataField="active" caption="IsActive">
+
+          {{this.statusTemplate}}
+        </dxi-column>
         <dxi-column
           caption="Actions"
           [allowSorting]="false"
           [allowFiltering]="false"
         >
-          <dxi-column>
-            <div *dxTemplate="let data of 'cellTemplate'">
-              <button (click)="setStatus(data.data, 'active')">Activate</button>
-              <button (click)="setStatus(data.data, 'inactive')">Deactivate</button>
-              <button (click)="softDelete(data.data)">Delete</button>
-            </div>
-          </dxi-column>
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <button (onClick)="setStatus(data, 'inactive')">Deactivate</button>
+        </div>
         </dxi-column>
       </dx-data-grid>
     </div>
@@ -43,199 +46,7 @@ export class DataGridComponent implements OnInit {
 
   ngOnInit() {
     // Set up your sample data
-    this.dataSource = [
-      {
-        id: 1,
-        name: 'Espresso',
-        status: 'In stock',
-        group: 'Coffee',
-        subGroup: 'Hot Drinks',
-        name_jp: 'エスプレッソ',
-        name_kr: '에스프레소',
-        available_unit: 100,
-      },
-      {
-        id: 2,
-        name: 'Latte',
-        status: 'In stock',
-        group: 'Coffee',
-        subGroup: 'Hot Drinks',
-        name_jp: 'ラテ',
-        name_kr: '라떼',
-        available_unit: 75,
-      },
-      {
-        id: 3,
-        name: 'Americano',
-        status: 'Out of stock',
-        group: 'Coffee',
-        subGroup: 'Hot Drinks',
-        name_jp: 'アメリカーノ',
-        name_kr: '아메리카노',
-        available_unit: 0,
-      },
-      {
-        id: 4,
-        name: 'Cappuccino',
-        status: 'In stock',
-        group: 'Coffee',
-        subGroup: 'Hot Drinks',
-        name_jp: 'カプチーノ',
-        name_kr: '카푸치노',
-        available_unit: 50,
-      },
-      {
-        id: 5,
-        name: 'Iced Coffee',
-        status: 'In stock',
-        group: 'Coffee',
-        subGroup: 'Cold Drinks',
-        name_jp: 'アイスコーヒー',
-        name_kr: '아이스 커피',
-        available_unit: 120,
-      },
-      {
-        id: 6,
-        name: 'Green Tea',
-        status: 'In stock',
-        group: 'Tea',
-        subGroup: 'Hot Drinks',
-        name_jp: '緑茶',
-        name_kr: '녹차',
-        available_unit: 80,
-      },
-      {
-        id: 7,
-        name: 'Herbal Tea',
-        status: 'In stock',
-        group: 'Tea',
-        subGroup: 'Hot Drinks',
-        name_jp: 'ハーブティー',
-        name_kr: '허브 차',
-        available_unit: 60,
-      },
-      {
-        id: 8,
-        name: 'Sushi Set A',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Sushi',
-        name_jp: '寿司セットA',
-        name_kr: '초밥 세트A',
-        available_unit: 30,
-      },
-      {
-        id: 9,
-        name: 'Sushi Set B',
-        status: 'Out of stock',
-        group: 'Japanese',
-        subGroup: 'Sushi',
-        name_jp: '寿司セットB',
-        name_kr: '초밥 세트B',
-        available_unit: 0,
-      },
-      {
-        id: 12,
-        name: 'Ramen',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Noodles',
-        name_jp: 'ラーメン',
-        name_kr: '라면',
-        available_unit: 40,
-      },
-      {
-        id: 11,
-        name: 'Tempura Udon',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Noodles',
-        name_jp: '天ぷらうどん',
-        name_kr: '튀김우동',
-        available_unit: 25,
-      },
-      {
-        id: 13,
-        name: 'Yakitori',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Grilled Skewers',
-        name_jp: '焼き鳥',
-        name_kr: '야끼토리',
-        available_unit: 50,
-      },
-      {
-        id: 14,
-        name: 'Takoyaki',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Street Food',
-        name_jp: 'たこ焼き',
-        name_kr: '타코야끼',
-        available_unit: 45,
-      },
-      {
-        id:15,
-        name: 'Okonomiyaki',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Street Food',
-        name_jp: 'お好み焼き',
-        name_kr: '오코노미야끼',
-        available_unit: 35,
-      },
-      {
-        id: 16,
-        name: 'Miso Soup',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Soup',
-        name_jp: '味噌汁',
-        name_kr: '미소 스프',
-        available_unit: 60,
-      },
-      {
-        id: 17,
-        name: 'Matcha Latte',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Hot Drinks',
-        name_jp: '抹茶ラテ',
-        name_kr: '말차 라떼',
-        available_unit: 55,
-      },
-      {
-        id: 18,
-        name: 'Dorayaki',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Dessert',
-        name_jp: 'どら焼き',
-        name_kr: '도라야끼',
-        available_unit: 20,
-      },
-      {
-        id: 19,
-        name: 'Taiyaki',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Dessert',
-        name_jp: 'たい焼き',
-        name_kr: '타이야키',
-        available_unit: 15,
-      },
-      {
-        id: 20,
-        name: 'Sashimi Platter',
-        status: 'In stock',
-        group: 'Japanese',
-        subGroup: 'Sashimi',
-        name_jp: '刺身プレート',
-        name_kr: '사시미 플래터',
-        available_unit: 30,
-      },
-      // Add more data as needed
-    ];
+    this.dataSource = products
 
     this.columns = [
       { dataField: 'id', caption: 'ID' },
@@ -244,6 +55,22 @@ export class DataGridComponent implements OnInit {
       // ... other columns ...
     ];
   }
+
+  statusTemplate = (cellElement: any, cellInfo: any) => {
+    const status = cellInfo.data.status;
+    const bannerClass = 'status-banner';
+    const bannerText = status === 'active' ? 'Active' : status === 'inactive' ? 'Inactive' : 'Deleted';
+    return `<div class="<span class="math-inline">\{bannerClass\}"\></span>{bannerText}</div>`;
+  };
+
+  actionsTemplate = (cellElement: any, cellInfo: any) => {
+    const data = cellInfo.data;
+    return `
+    <dx-button (onClick)="setStatus(data, 'active')">Activate</dx-button>
+    <dx-button (onClick)="setStatus(data, 'inactive')">Deactivate</dx-button>
+    <dx-button (onClick)="softDelete(data)">Delete</dx-button>
+    `;
+  };
 
   onSelectionChanged(e: any) {
     const selectedData = e.selectedRowsData[0]; // Assuming single selection

@@ -1,211 +1,41 @@
-// src/app/product.service.ts
 import { Injectable } from '@angular/core';
-import { Product } from './product.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Espresso',
-      status: 'In stock',
-      group: 'Coffee',
-      subGroup: 'Hot Drinks',
-      name_jp: 'エスプレッソ',
-      name_kr: '에스프레소',
-      available_unit: 100,
-    },
-    {
-      id: 2,
-      name: 'Latte',
-      status: 'In stock',
-      group: 'Coffee',
-      subGroup: 'Hot Drinks',
-      name_jp: 'ラテ',
-      name_kr: '라떼',
-      available_unit: 75,
-    },
-    {
-      id: 3,
-      name: 'Americano',
-      status: 'Out of stock',
-      group: 'Coffee',
-      subGroup: 'Hot Drinks',
-      name_jp: 'アメリカーノ',
-      name_kr: '아메리카노',
-      available_unit: 0,
-    },
-    {
-      id: 4,
-      name: 'Cappuccino',
-      status: 'In stock',
-      group: 'Coffee',
-      subGroup: 'Hot Drinks',
-      name_jp: 'カプチーノ',
-      name_kr: '카푸치노',
-      available_unit: 50,
-    },
-    {
-      id: 5,
-      name: 'Iced Coffee',
-      status: 'In stock',
-      group: 'Coffee',
-      subGroup: 'Cold Drinks',
-      name_jp: 'アイスコーヒー',
-      name_kr: '아이스 커피',
-      available_unit: 120,
-    },
-    {
-      id: 6,
-      name: 'Green Tea',
-      status: 'In stock',
-      group: 'Tea',
-      subGroup: 'Hot Drinks',
-      name_jp: '緑茶',
-      name_kr: '녹차',
-      available_unit: 80,
-    },
-    {
-      id: 7,
-      name: 'Herbal Tea',
-      status: 'In stock',
-      group: 'Tea',
-      subGroup: 'Hot Drinks',
-      name_jp: 'ハーブティー',
-      name_kr: '허브 차',
-      available_unit: 60,
-    },
-    {
-      id: 8,
-      name: 'Sushi Set A',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Sushi',
-      name_jp: '寿司セットA',
-      name_kr: '초밥 세트A',
-      available_unit: 30,
-    },
-    {
-      id: 9,
-      name: 'Sushi Set B',
-      status: 'Out of stock',
-      group: 'Japanese',
-      subGroup: 'Sushi',
-      name_jp: '寿司セットB',
-      name_kr: '초밥 세트B',
-      available_unit: 0,
-    },
-    {
-      id: 12,
-      name: 'Ramen',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Noodles',
-      name_jp: 'ラーメン',
-      name_kr: '라면',
-      available_unit: 40,
-    },
-    {
-      id: 11,
-      name: 'Tempura Udon',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Noodles',
-      name_jp: '天ぷらうどん',
-      name_kr: '튀김우동',
-      available_unit: 25,
-    },
-    {
-      id: 13,
-      name: 'Yakitori',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Grilled Skewers',
-      name_jp: '焼き鳥',
-      name_kr: '야끼토리',
-      available_unit: 50,
-    },
-    {
-      id: 14,
-      name: 'Takoyaki',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Street Food',
-      name_jp: 'たこ焼き',
-      name_kr: '타코야끼',
-      available_unit: 45,
-    },
-    {
-      id: 15,
-      name: 'Okonomiyaki',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Street Food',
-      name_jp: 'お好み焼き',
-      name_kr: '오코노미야끼',
-      available_unit: 35,
-    },
-    {
-      id: 16,
-      name: 'Miso Soup',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Soup',
-      name_jp: '味噌汁',
-      name_kr: '미소 스프',
-      available_unit: 60,
-    },
-    {
-      id: 17,
-      name: 'Matcha Latte',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Hot Drinks',
-      name_jp: '抹茶ラテ',
-      name_kr: '말차 라떼',
-      available_unit: 55,
-    },
-    {
-      id: 18,
-      name: 'Dorayaki',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Dessert',
-      name_jp: 'どら焼き',
-      name_kr: '도라야끼',
-      available_unit: 20,
-    },
-    {
-      id: 19,
-      name: 'Taiyaki',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Dessert',
-      name_jp: 'たい焼き',
-      name_kr: '타이야키',
-      available_unit: 15,
-    },
-    {
-      id: 20,
-      name: 'Sashimi Platter',
-      status: 'In stock',
-      group: 'Japanese',
-      subGroup: 'Sashimi',
-      name_jp: '刺身プレート',
-      name_kr: '사시미 플래터',
-      available_unit: 30,
-    },
-    // Add more sample products as needed
-  ];
+  private apiUrl = 'http://localhost:5068/api';
 
-  getProducts(): Product[] {
-    return this.products;
+  constructor(private http: HttpClient) { }
+
+  getProducts(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Set the appropriate content type
+      // Add any other custom headers if needed
+    });
+
+    // Configure the request options
+    const requestOptions = {
+      headers: headers,
+      withCredentials: true, // If you need to send credentials (cookies, HTTP authentication)
+    };
+    return this.http.get(`/api/Products`, requestOptions);
   }
 
-  getProductById(id: number): Product | undefined {
-    console.log(id)
-    return this.products.find(product => product.id === id);
+  getProductById(productId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Set the appropriate content type
+      // Add any other custom headers if needed
+    });
+
+    // Configure the request options
+    const requestOptions = {
+      headers: headers,
+      withCredentials: true, // If you need to send credentials (cookies, HTTP authentication)
+    };
+    const url = `/api/Products/${productId}`;
+    return this.http.get(url, requestOptions);
   }
 }

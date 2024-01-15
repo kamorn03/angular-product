@@ -5,10 +5,4 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Products';
-  selectedItemId!: number;
-
-  onSelectedItemChanged(itemId: number) {
-    this.selectedItemId = itemId;
-  }
 }

@@ -10,26 +10,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
-  product: Product | undefined;
-  private routeSubscription: Subscription;
+export class ProductComponent {
+  title = 'Products';
+  selectedItemId!: number;
 
-  constructor(
-    private productService: ProductService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-    this.routeSubscription = new Subscription();
-  }
-
-  ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe(params => {
-      const productId = Number(params['id']);
-      this.product = this.productService.getProductById(productId);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+  onSelectedItemChanged(itemId: number) {
+    this.selectedItemId = itemId;
   }
 }

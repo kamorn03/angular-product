@@ -1,18 +1,17 @@
 -- Create CoffeeShopStock table
-CREATE TABLE CoffeeShopStock (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    is_active BOOLEAN NOT NULL DEFAULT true,
-    group_name VARCHAR(50) NOT NULL,
-    sub_group_name VARCHAR(50),
-    name_jp VARCHAR(50),
-    name_kr VARCHAR(50),
-    available_unit INT NOT NULL,
-    soft_delete BOOLEAN DEFAULT false
-);
+CREATE TABLE productitems (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    IsActive BOOLEAN NOT NULL DEFAULT true,
+    GroupName VARCHAR(50) NOT NULL,
+    SubGroupName VARCHAR(50),
+    NameJp VARCHAR(50),
+    NameKr VARCHAR(50),
+    AvailableUnit INT NOT NULL,
+    SoftDelete BOOLEAN DEFAULT false
 
 -- Insert sample data into CoffeeShopStock table
-INSERT INTO CoffeeShopStock (name, is_active, group_name, sub_group_name, name_jp, name_kr, available_unit, soft_delete)
+INSERT INTO productitems (Name, IsActive, GroupName, SubGroupName, NameJp, NameKr, AvailableUnit, SoftDelete)
 VALUES 
     ('Espresso', true, 'Coffee', 'Hot Drinks', 'エスプレッソ', '에스프레소', 100, false),
     ('Latte', true, 'Coffee', 'Hot Drinks', 'ラテ', '라떼', 75, false),

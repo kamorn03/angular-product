@@ -3,11 +3,23 @@ export class Product {
     constructor(
       public id: number,
       public name: string,
-      public group: string,
-      public subGroup: string,
-      public name_jp: string,
-      public name_kr: string,
-      public available_unit: number,
-      public status: string,
+      public groupName: string,
+      public subGroupName: string,
+      public nameJp: string,
+      public nameKr: string,
+      public availableUnit: number,
+      public isActive: boolean,
     ) {}
   }
+
+// {  
+//   "id": 3,
+//   "name": "Americano",
+//   "isActive": false,
+//   "groupName": "Coffee",
+//   "subGroupName": "Hot Drinks",
+//   "nameJp": "アメリカーノ",
+//   "nameKr": "아메리카노",
+//   "availableUnit": 0,
+//   "softDelete": false
+// }

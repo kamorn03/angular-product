@@ -1,5 +1,14 @@
 <!-- src/app/product/product.component.html -->
 <div ngFor="product">
-    <h2>{{ product?.name }}</h2>
-    <p>Price: ${{ product?.available_unit }}</p>
+    search
+<!--  -->
+    table 
+<!--  -->
+    edit
+
+    <h2>product</h2>
+    <nav>
+        <a routerLink="/product/{{selectedItemId}}">product</a>
+    </nav>
+    <app-datagrid (selectedItemChanged)="onSelectedItemChanged($event)"></app-datagrid>
 </div>
