@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ProductService {
   private apiUrl = 'http://localhost:5068';
   public headers = new HttpHeaders({
-    'Content-Type': 'application/json', 
+    'Content-Type': 'application/json',
   });
 
   constructor(private http: HttpClient) { }
@@ -19,6 +19,7 @@ export class ProductService {
       headers: this.headers,
       withCredentials: true, // If you need to send credentials (cookies, HTTP authentication)
     };
+
     return this.http.get(`/api/Products`, requestOptions);
   }
 
@@ -28,6 +29,7 @@ export class ProductService {
       withCredentials: true,
     };
     const url = `/api/Products/${productId}`;
+
     return this.http.get(url, requestOptions);
   }
 
@@ -37,17 +39,43 @@ export class ProductService {
       headers: this.headers,
       withCredentials: true,
     };
+
     return this.http.get(`/api/Groups`, requestOptions);
   }
 
-   // subGroup
-   getSubGroup(): Observable<any> {
+  // subGroup
+  getSubGroup(): Observable<any> {
     const requestOptions = {
       headers: this.headers,
-      withCredentials: true, 
+      withCredentials: true,
     };
-    console.log('LOG getSubGroup', requestOptions, this.apiUrl)
+
     return this.http.get(`/api/SubGroups`, requestOptions);
+  }
+
+  // status
+  updateStatus(productId: number, status: boolean): Observable<any> {
+    const requestOptions = {
+      headers: this.headers,
+      withCredentials: true
+    };
+
+    const body = {
+      isActive: status
+    };
+
+    return this.http.patch(`/api/Products/${productId}/update-status`, body, requestOptions);
+  }
+
+
+  // softDelete
+  softDelete(productId: number): Observable<any> {
+    const requestOptions = {
+      headers: this.headers,
+      withCredentials: true,
+    };
+
+    return this.http.patch(`/api/Products/${productId}/soft-delete`, requestOptions);
   }
 
 }

@@ -69,18 +69,18 @@ import { Product } from './product.model';
         ></dxi-column>
         <div *dxTemplate="let action of 'actionTemplate'">
           <button 
-            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg rounded-full {{action.data.isActive ? 'bg-green-500' : 'bg-green-300'}}"
+            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg rounded-full {{!action.data.isActive ? 'bg-green-500' : 'bg-green-300'}}"
             (click)="this.setStatus(action.data, true)">
             A 
           </button>
           <button 
-            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg ml-2 rounded-full {{!action.data.isActive ? 'bg-orange-500' : 'bg-orange-300'}}"
+            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg ml-2 rounded-full {{action.data.isActive ? 'bg-orange-500' : 'bg-orange-300'}}"
             (click)="this.setStatus(action.data, false)">
              I 
           </button>
           <button 
             class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg ml-2 rounded-full {{!action.data.softDelete ? 'bg-red-500' : 'bg-red-300'}}"
-            (click)="this.setStatus(action.data, false)">
+            (click)="this.softDelete(action.data)">
              D 
           </button>
         </div>
@@ -102,7 +102,6 @@ export class DataGridComponent implements OnInit {
   ngOnInit() {
     // Set up your sample data
     // this.dataSource = this.productService.getProducts
-
     this.productService.getProducts().subscribe(
       (data: Product[]) => {
         this.dataSource = data;
@@ -125,30 +124,39 @@ export class DataGridComponent implements OnInit {
 
   setStatus(data: Product, status: boolean) {
     // Implement logic to update status in your data source or call a service
-    console.log(`Setting status to ${status} for ID: ${data.id}`);
     const accepted = window.confirm('Are you sure you want to proceed?');
     if (accepted) {
-      // Send data here
-      this.sendData();
+      this.productService.updateStatus(data.id, status).subscribe(
+        (data: Product[]) => {
+           // Send data here
+          this.dataSource = data;
+          this.sendData();
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
     }
   }
 
-  softDelete(data: Product, confirm: boolean) {
+  softDelete(data: Product) {
     // Implement logic for soft delete in your data source or call a service
-    console.log(`Soft deleting ID: ${data.id}`);
     const accepted = window.confirm('Are you sure you want to proceed?');
     if (accepted) {
-      // Send data here
-      this.sendData();
+      this.productService.softDelete(data.id).subscribe(
+        (data: Product[]) => {
+           // Send data here
+          this.dataSource = data;
+          this.sendData();
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
     }
   }
 
   sendData() {
-    // Your logic to send data to the server
-    // ...
-  
-    // After successful data sending, refresh the data
+    console.log('send data')
   }
-
-  
 }
