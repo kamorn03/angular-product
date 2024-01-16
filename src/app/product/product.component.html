@@ -15,9 +15,9 @@
                 <label for="selectGroup"
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Group</label>
                 <div class="relative">
-                    <select id="selectGroup" #GroupSelect
+                    <select id="selectGroup"
                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        [(ngModel)]="selectedGroup">
+                        [(ngModel)]="selectedGroup" (ngModelChange)="this.onSelectGroupChanged()"> 
                         <option selected disabled>Choose...</option>
                         <option *ngFor="let gro of group" [value]="gro.id">
                             {{ gro.groupName }}
@@ -28,11 +28,11 @@
             <!-- Sub Group dropdown -->
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label for="selectGroup"
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Group</label>
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Sub Group</label>
                 <div class="relative">
-                    <select id="selectSubGroup" #SubGroupSelect
+                    <select id="selectSubGroup"
                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        [(ngModel)]="selectedSubGroup">
+                        [(ngModel)]="selectedSubGroup" (ngModelChange)="this.onSelectSubGroupChanged()">
                         <option selected disabled>Choose...</option>
                         <option *ngFor="let sub of subGroup" [value]="sub.id">
                             {{ sub.subGroupName }}
@@ -43,7 +43,7 @@
 
             <!-- Status input -->
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                <label for="inputStatus"  #ActiveSelect
+                <label for="inputStatus"
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status</label>
                 <select id="selectActive"
                     class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -63,14 +63,15 @@
                     class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     clear
                 </button>
-                <button type="submit"
+                <button (click)="this.searchData()"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Search
                 </button>
             </div>
         </div>
 
-        <app-datagrid (selectedItemChanged)="onSelectedItemChanged($event)"></app-datagrid>
+        <!-- props and -->
+        <app-datagrid  [productData]="this.product" (selectedItemChanged)="onSelectedItemChanged($event)"></app-datagrid>
 
         <nav>
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">

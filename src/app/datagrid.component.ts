@@ -1,5 +1,5 @@
 // datagrid.component.ts
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input, SimpleChanges } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product.model';
 
@@ -90,6 +90,7 @@ import { Product } from './product.model';
 })
 export class DataGridComponent implements OnInit {
   @Output() selectedItemChanged = new EventEmitter<number>();
+  @Input() productData: Product[] | undefined;
   dataSource!: Product[];
   columns!: any[];
   selectedItemId!: number;
@@ -110,6 +111,13 @@ export class DataGridComponent implements OnInit {
         console.error('Error:', error);
       }
     );
+    // productData.sub
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['productData'] && changes['productData'].currentValue) {
+      this.dataSource = changes['productData'].currentValue;
+    }
   }
 
   onSelectionChanged(e: any) {
@@ -121,6 +129,10 @@ export class DataGridComponent implements OnInit {
     }
   }
 
+  onSelectedItemChanged(eventData: any) {
+    console.log('LOG search')
+    this.dataSource = eventData.product;
+  }
 
   setStatus(data: Product, status: boolean) {
     // Implement logic to update status in your data source or call a service
@@ -128,7 +140,7 @@ export class DataGridComponent implements OnInit {
     if (accepted) {
       this.productService.updateStatus(data.id, status).subscribe(
         (data: Product[]) => {
-           // Send data here
+          // Send data here
           this.dataSource = data;
           this.sendData();
         },
@@ -145,7 +157,7 @@ export class DataGridComponent implements OnInit {
     if (accepted) {
       this.productService.softDelete(data.id).subscribe(
         (data: Product[]) => {
-           // Send data here
+          // Send data here
           this.dataSource = data;
           this.sendData();
         },

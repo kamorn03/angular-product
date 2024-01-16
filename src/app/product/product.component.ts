@@ -1,8 +1,8 @@
 // src/app/product/product.component.ts
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../product.service';
-import { Group, SubGroup } from '../product.model';
+import { Group, Product, SubGroup } from '../product.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,15 +13,17 @@ import { Subscription } from 'rxjs';
 export class ProductComponent implements OnInit, OnDestroy {
   title = 'Products';
   selectedItemId!: number;
+  product?: Product[];
+  $data: any;
   group?: Group[];
   subGroup?: SubGroup[];
-  isActive: boolean | undefined;
+  isActive: string | undefined;
 
   // value of search
   name: string | undefined;
-  selectedGroup: string | undefined;
-  selectedSubGroup: string | undefined;
-  selectedActive: boolean | undefined;
+  selectedGroup: string | null | undefined;
+  selectedSubGroup: string | null | undefined;
+  selectedActive: string | null | undefined;
 
   private routeSubscription: Subscription;
 
@@ -53,21 +55,52 @@ export class ProductComponent implements OnInit, OnDestroy {
       );
     });
 
-    console.log('selectedSubGroup', this.selectedSubGroup)
   }
 
+  onSelectGroupChanged() {
+    console.log('LOG group : ', this.selectedGroup)
+    if (this.selectedGroup) {
+      this.productService.getSubGroupฺฺByGroup(Number(this.selectedGroup)).subscribe(
+        (data: SubGroup[]) => {
+          this.subGroup = data;
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    }
+  }
 
+  onSelectSubGroupChanged() {
+    console.log('LOG sub : ', this.selectedSubGroup)
+  }
   // search !!!!!!! ****
   searchData() {
     // value of search
-    console.log("data search:", this.name, this.selectedGroup, this.selectedSubGroup , this.selectedActive)
+    const data = {
+      name: this.name,
+      groupId: Number(this.selectedGroup),
+      subGroupId: Number(this.selectedSubGroup),
+      isActive: this.selectedActive ? this.selectedActive === 'active' ? true : false : null
+    }
+
+    this.productService.searchDataApi(data).subscribe(
+      (data: Product[]) => {
+        this.product = data;
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   // clear !!!!!!! ****
   clearData() {
     // value of search
-    this.name
+    this.selectedSubGroup = undefined; 
   }
+
+
 
 
   onSelectedItemChanged(itemId: number) {

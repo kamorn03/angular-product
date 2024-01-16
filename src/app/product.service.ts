@@ -53,6 +53,17 @@ export class ProductService {
     return this.http.get(`/api/SubGroups`, requestOptions);
   }
 
+  // subGroup by group
+  getSubGroupฺฺByGroup(groupId: number): Observable<any> {
+    const requestOptions = {
+      headers: this.headers,
+      withCredentials: true,
+    };
+
+    return this.http.get(`/api/Products/${groupId}/SubGroups`, requestOptions);
+  }
+
+
   // status
   updateStatus(productId: number, status: boolean): Observable<any> {
     const requestOptions = {
@@ -76,6 +87,17 @@ export class ProductService {
     };
 
     return this.http.patch(`/api/Products/${productId}/soft-delete`, requestOptions);
+  }
+
+
+  // search data
+  searchDataApi(params: object): Observable<any> {
+    const requestOptions = {
+      headers: this.headers,
+      withCredentials: true,
+    };
+
+    return this.http.post(`/api/search`, params, requestOptions);
   }
 
 }
