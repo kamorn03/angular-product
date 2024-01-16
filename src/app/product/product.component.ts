@@ -58,8 +58,16 @@ export class ProductComponent implements OnInit, OnDestroy {
 
 
   // search !!!!!!! ****
+  searchData() {
+    // value of search
+    console.log("data search:", this.name, this.selectedGroup, this.selectedSubGroup , this.selectedActive)
+  }
 
   // clear !!!!!!! ****
+  clearData() {
+    // value of search
+    this.name
+  }
 
 
   onSelectedItemChanged(itemId: number) {

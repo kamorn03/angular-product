@@ -7,7 +7,7 @@
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label for="inputName"
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Name</label>
-                <input type="text" id="inputName" placeholder="Name"
+                <input type="text" #Name id="inputName" placeholder="Name" [(ngModel)]="name"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
             </div>
             <!-- Group dropdown -->
@@ -15,7 +15,7 @@
                 <label for="selectGroup"
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Group</label>
                 <div class="relative">
-                    <select id="selectGroup"
+                    <select id="selectGroup" #GroupSelect
                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         [(ngModel)]="selectedGroup">
                         <option selected disabled>Choose...</option>
@@ -30,7 +30,7 @@
                 <label for="selectGroup"
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Group</label>
                 <div class="relative">
-                    <select id="selectSubGroup"
+                    <select id="selectSubGroup" #SubGroupSelect
                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         [(ngModel)]="selectedSubGroup">
                         <option selected disabled>Choose...</option>
@@ -43,9 +43,9 @@
 
             <!-- Status input -->
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                <label for="inputStatus"
+                <label for="inputStatus"  #ActiveSelect
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status</label>
-                <select id="selectSubGroup"
+                <select id="selectActive"
                     class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     [(ngModel)]="selectedActive">
                     <option selected disabled>Choose...</option>

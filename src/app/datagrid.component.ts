@@ -126,10 +126,29 @@ export class DataGridComponent implements OnInit {
   setStatus(data: Product, status: boolean) {
     // Implement logic to update status in your data source or call a service
     console.log(`Setting status to ${status} for ID: ${data.id}`);
+    const accepted = window.confirm('Are you sure you want to proceed?');
+    if (accepted) {
+      // Send data here
+      this.sendData();
+    }
   }
 
   softDelete(data: Product, confirm: boolean) {
     // Implement logic for soft delete in your data source or call a service
     console.log(`Soft deleting ID: ${data.id}`);
+    const accepted = window.confirm('Are you sure you want to proceed?');
+    if (accepted) {
+      // Send data here
+      this.sendData();
+    }
   }
+
+  sendData() {
+    // Your logic to send data to the server
+    // ...
+  
+    // After successful data sending, refresh the data
+  }
+
+  
 }
