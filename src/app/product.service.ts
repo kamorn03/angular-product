@@ -6,36 +6,48 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:5068/api';
+  private apiUrl = 'http://localhost:5068';
+  public headers = new HttpHeaders({
+    'Content-Type': 'application/json', 
+  });
 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json', // Set the appropriate content type
-      // Add any other custom headers if needed
-    });
-
     // Configure the request options
     const requestOptions = {
-      headers: headers,
+      headers: this.headers,
       withCredentials: true, // If you need to send credentials (cookies, HTTP authentication)
     };
     return this.http.get(`/api/Products`, requestOptions);
   }
 
   getProductById(productId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json', // Set the appropriate content type
-      // Add any other custom headers if needed
-    });
-
-    // Configure the request options
     const requestOptions = {
-      headers: headers,
-      withCredentials: true, // If you need to send credentials (cookies, HTTP authentication)
+      headers: this.headers,
+      withCredentials: true,
     };
     const url = `/api/Products/${productId}`;
     return this.http.get(url, requestOptions);
   }
+
+  // group
+  getGroup(): Observable<any> {
+    const requestOptions = {
+      headers: this.headers,
+      withCredentials: true,
+    };
+    return this.http.get(`/api/Groups`, requestOptions);
+  }
+
+   // subGroup
+   getSubGroup(): Observable<any> {
+    const requestOptions = {
+      headers: this.headers,
+      withCredentials: true, 
+    };
+    console.log('LOG getSubGroup', requestOptions, this.apiUrl)
+    return this.http.get(`/api/SubGroups`, requestOptions);
+  }
+
 }

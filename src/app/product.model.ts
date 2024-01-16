@@ -3,8 +3,8 @@ export class Product {
   constructor(
     public id: number,
     public name: string,
-    public productGroup: object,
-    public productSubGroup: object,
+    public productGroup: Group,
+    public productSubGroup: SubGroup,
     public nameJp: string,
     public nameKr: string,
     public availableUnit: number,
@@ -14,21 +14,21 @@ export class Product {
 }
 
 
-// export class Group {
-//   constructor(
-//     public id: number,
-//     public groupName: string,
-//   ) { }
-// }
+export class Group {
+  constructor(
+    public id: number,
+    public groupName: string,
+  ) { }
+}
 
 
-// export class SubGroup {
-//   constructor(
-//     public id: number,
-//     public productGroup: Group,
-//     public subGroupName: string,
-//   ) { }
-// }
+export class SubGroup {
+  constructor(
+    public id: number,
+    public productGroup: Group,
+    public subGroupName: string,
+  ) { }
+}
 
 // {  
 //   "id": 3,

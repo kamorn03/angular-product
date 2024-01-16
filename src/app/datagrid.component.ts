@@ -1,6 +1,5 @@
 // datagrid.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-// import { products } from './product'
 import { ProductService } from './product.service';
 import { Product } from './product.model';
 
@@ -18,26 +17,34 @@ import { Product } from './product.model';
         }"
         (onSelectionChanged)="onSelectionChanged($event)"
       >
-        <!-- <dxo-filter-row [visible]="true"></dxo-filter-row>
-        <dxo-header-filter [visible]="true"></dxo-header-filter>
-        <dxo-group-panel [visible]="true"></dxo-group-panel>
-        <dxo-scrolling mode="virtual"></dxo-scrolling>
-        <dxo-editing
-          mode="row"
-          [allowAdding]="true"
-          [allowUpdating]="true"
-          [allowDeleting]="true"
-        >
-        </dxo-editing> -->
         <dxo-paging [enabled]="true"></dxo-paging>
-        <dxi-column dataField="id" caption="id"></dxi-column>
-        <dxi-column dataField="name" caption="Name"></dxi-column>
-        <dxi-column dataField="productGroup.groupName" caption="group"></dxi-column>
-        <dxi-column dataField="productSubGroup.subGroupName" caption="sub group"></dxi-column>
-
+        <dxi-column  
+          width="auto"
+          [minWidth]="100" 
+          dataField="id" 
+          caption="id">
+        </dxi-column>
+        <dxi-column  
+          width="auto"
+          [minWidth]="100"  
+          dataField="name" 
+          caption="Name">
+        </dxi-column>
+        <dxi-column   
+          width="auto"
+          [minWidth]="350"   
+          dataField="productGroup.groupName" 
+          caption="group">
+        </dxi-column>
+        <dxi-column 
+          width="auto"
+          [minWidth]="350"  
+          dataField="productSubGroup.subGroupName" 
+          caption="sub group">
+        </dxi-column>
         <dxi-column
           caption="Status"
-          [width]="100"
+          [width]="180"
           [allowFiltering]="false"
           [allowSorting]="false"
           cellTemplate="activeTemplate"
@@ -55,16 +62,27 @@ import { Product } from './product.model';
         </div>
         <!-- click to change status -->
         <dxi-column
-          dataField="id"
-          [width]="100"
+          [width]="250"
           [allowFiltering]="false"
           [allowSorting]="false"
           cellTemplate="actionTemplate"
         ></dxi-column>
-        <div *dxTemplate="let data of 'actionTemplate'">
-          <button >{{data.value}}</button>
-          <button>test</button>
-          <button>test</button>
+        <div *dxTemplate="let action of 'actionTemplate'">
+          <button 
+            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg rounded-full {{action.data.isActive ? 'bg-green-500' : 'bg-green-300'}}"
+            (click)="this.setStatus(action.data, true)">
+            A 
+          </button>
+          <button 
+            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg ml-2 rounded-full {{!action.data.isActive ? 'bg-orange-500' : 'bg-orange-300'}}"
+            (click)="this.setStatus(action.data, false)">
+             I 
+          </button>
+          <button 
+            class="text-white p-3 text-center inline-flex items-center justify-center w-10 h-10 shadow-lg ml-2 rounded-full {{!action.data.softDelete ? 'bg-red-500' : 'bg-red-300'}}"
+            (click)="this.setStatus(action.data, false)">
+             D 
+          </button>
         </div>
       </dx-data-grid>
     </div>
@@ -95,22 +113,6 @@ export class DataGridComponent implements OnInit {
     );
   }
 
-  // statusTemplate = (cellElement: any, cellInfo: any) => {
-  //   const status = cellInfo.data.status;
-  //   const bannerClass = 'status-banner';
-  //   const bannerText = status === 'active' ? 'Active' : status === 'inactive' ? 'Inactive' : 'Deleted';
-  //   return `<div class="<span class="math-inline">\{bannerClass\}"\></span>{bannerText}</div>`;
-  // };
-
-  // actionsTemplate = (cellElement: any, cellInfo: any) => {
-  //   const data = cellInfo.data;
-  //   return `
-  //   <dx-button (onClick)="setStatus(data, 'active')">Activate</dx-button>
-  //   <dx-button (onClick)="setStatus(data, 'inactive')">Deactivate</dx-button>
-  //   <dx-button (onClick)="softDelete(data)">Delete</dx-button>
-  //   `;
-  // };
-
   onSelectionChanged(e: any) {
     const selectedData = e.selectedRowsData[0]; // Assuming single selection
     if (selectedData) {
@@ -121,13 +123,13 @@ export class DataGridComponent implements OnInit {
   }
 
 
-  setStatus(data: any, status: string) {
+  setStatus(data: Product, status: boolean) {
     // Implement logic to update status in your data source or call a service
-    console.log(`Setting status to ${status} for ID: ${data.ID}`);
+    console.log(`Setting status to ${status} for ID: ${data.id}`);
   }
 
-  softDelete(data: any) {
+  softDelete(data: Product, confirm: boolean) {
     // Implement logic for soft delete in your data source or call a service
-    console.log(`Soft deleting ID: ${data.ID}`);
+    console.log(`Soft deleting ID: ${data.id}`);
   }
 }
