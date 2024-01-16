@@ -1,5 +1,36 @@
 <!-- src/app/product/product.component.html -->
 <div ngFor="product">
-    <h2>{{ product?.name }}</h2>
-    <p>Price: ${{ product?.availableUnit }}</p>
+    <div class="container mx-auto p-4">
+
+        <!-- tree list  -->
+        <app-product-tree></app-product-tree>
+        <!-- search dropdown  -->
+
+        <!-- show name  -->
+        <div>
+            <h3>{{ product?.name }}</h3>
+            <h3>{{ product?.nameJp }}</h3>
+            <h3>{{ product?.nameKr }}</h3>
+        </div>
+
+        <!-- table group and stock & copy & paste & update --> 
+
+        <!-- <h2>{{ product?.name }}</h2>
+        <p>Price: ${{ product?.availableUnit }}</p> -->
+
+
+        <nav>
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                <div class="w-full md:w-1/4 px-3 mt-6">
+                    <a routerLink="/product">
+                        <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            back
+                        </button>
+                    </a>
+                </div>
+            </div>  
+        </nav>
+
+    </div>
 </div>

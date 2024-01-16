@@ -9,8 +9,13 @@ import { RouterOutlet } from '@angular/router';
 import { DxDataGridModule } from 'devextreme-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
+import { DxTreeListModule } from 'devextreme-angular';
+
+
 import { ProductComponent } from './product/product.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { DataGridComponent } from './datagrid.component';
+import { ProductTreeComponent } from './product-tree/product-tree.component'
 
 @NgModule({
   imports: [
@@ -20,12 +25,15 @@ import { DataGridComponent } from './datagrid.component';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DxTreeListModule
   ],
   declarations: [
     AppComponent,
     DataGridComponent,
-    ProductComponent
+    ProductComponent,
+    ProductDetailComponent,
+    ProductTreeComponent
   ],
   bootstrap: [AppComponent]
 })
